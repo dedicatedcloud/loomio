@@ -1,6 +1,52 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "Loomio Development",
+  "image": "mcr.microsoft.com/devcontainers/ruby:3-3.4-ubuntu-24.04",
   "features": {
-    "ghcr.io/rails/devcontainer/features/ruby:2": {}
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    },
+    "ghcr.io/devcontainers/features/postgres:1": {
+      "version": "15"
+    },
+    "ghcr.io/devcontainers/features/redis:1": {}
+  },
+  "containerEnv": {
+    "RAILS_ENV": "development"
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/vscode/.rbenv/bin:/home/vscode/.rbenv/shims"
+  },
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly"
+  ],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "forwardPorts": [8080, 3000],
+  "portsAttributes": {
+    "8080": {
+      "label": "Loomio",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "Rails Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.makefile-tools",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "Vue.volar"
+      ],
+      "settings": {
+        "rails.env": "development",
+        "[ruby]": {
+          "editor.defaultFormatter": "shopify.ruby-lsp",
+          "editor.formatOnSave": true
+        }
+      }
+    }
   }
 }
